@@ -21,6 +21,12 @@ fun main() {
     } else {
         println("I am not lion")
     }
+
+    tiger as Lion // 강제형변환, 당연히 런타임시 에러 발생함
+
+    // val box = Box<Int>(10)
+    val box = Box(10) // 타입 추론을하기 떄문에 Int 생략 가능
+    println(box.value)
 }
 
 interface Runnable {
@@ -29,12 +35,14 @@ interface Runnable {
 
 class Tiger : Animal(), Runnable {
     override fun run() {
-        TODO("Not yet implemented")
+        println("run")
     }
 }
 
 class Lion : Animal(), Runnable {
     override fun run() {
-        TODO("Not yet implemented")
+        println("run")
     }
 }
+
+class Box<T>(var value: T)
