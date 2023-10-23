@@ -45,6 +45,15 @@ fun mix(c1: Color, c2: Color) =
         else -> throw Exception("dirty color")
     }
 
+// 위의 setOf를 자주 호출하게 되면 불필요한 가비지 객체가 늘어나게됨
+// when은 아무 인자도 없이 사용할 수 있으며 각 분기의 조건이 불리언 결과를 계산하는 식이어야 함 -> 가독성은 떨어짐
+fun mixOptimized(c1:Color, c2:Color) =
+    when {
+        (c1 == Color.RED && c2 == Color.YELLOW) || (c1 == Color.YELLOW && c2 == Color.RED) -> Color.ORANGE
+        (c1 == Color.YELLOW && c2 == Color.BLUE) || (c1 == Color.BLUE && c2 == Color.YELLOW) -> Color.GREEN
+        else -> throw Exception("dirty color")
+    }
+
 // 상수(enum 상수, 숫자 리터럴)만 사용가능했던 자바와는 달리 코틀린에서는 임의의 객체를 허용함
 
 fun main(args: Array<String>) {
