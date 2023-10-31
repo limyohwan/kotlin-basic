@@ -26,7 +26,7 @@ fun eval2(e: Expr) : Int =
     if (e is Num) {
         e.value
     } else if (e is Sum) {
-        eval(e.right) + eval(e.left) // 변수 e에 대해 스마트 캐스트를 사용, 인텔리제이가 배경색으로 스마트 캐스팅한 부분을 표시해줌
+        eval2(e.right) + eval2(e.left) // 변수 e에 대해 스마트 캐스트를 사용, 인텔리제이가 배경색으로 스마트 캐스팅한 부분을 표시해줌
     } else {
         throw IllegalArgumentException("Unknown expression")
     }
@@ -35,10 +35,26 @@ fun eval2(e: Expr) : Int =
 fun eval3(e: Expr) : Int =
     when (e) {
         is Num -> e.value
-        is Sum -> eval(e.right) + eval(e.left) // 변수 e에 대해 스마트 캐스트를 사용, 인텔리제이가 배경색으로 스마트 캐스팅한 부분을 표시해줌
+        is Sum -> eval3(e.right) + eval3(e.left) // 변수 e에 대해 스마트 캐스트를 사용, 인텔리제이가 배경색으로 스마트 캐스팅한 부분을 표시해줌
         else -> throw IllegalArgumentException("Unknown expression")
     }
 // when 으로 수정
+
+fun evalWithLogging(e: Expr) : Int =
+    when (e) {
+        is Num -> {
+            println("num : ${e.value}")
+            e.value
+        }
+        is Sum -> {
+            val left = evalWithLogging(e.left)
+            val right = evalWithLogging(e.right)
+            println("sum : $left + $right")
+            left + right
+        }
+        else -> throw IllegalArgumentException("Unknown expression")
+    }
+// 복잡한 분기가 들어있는 when 사용
 
 fun main(args: Array<String>) {
     println(eval(Sum(Sum(Num(1), Num(2)), Num(4))))
