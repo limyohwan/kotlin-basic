@@ -1,4 +1,4 @@
-package com.yohwan.grammar.kotlininaction
+package com.yohwan.grammar.kotlininaction.chapter2
 
 fun fizzBuzz(i: Int) = when {
     i % 15 == 0 -> "FizzBuzz"

@@ -1,6 +1,6 @@
-package com.yohwan.grammar.rectangle
+package com.yohwan.grammar.kotlininaction.chapter2.rectangle
 
-import com.yohwan.grammar.kotlininaction.createRandomRectangle
+import com.yohwan.grammar.kotlininaction.chapter2.createRandomRectangle
 
 fun main(args: Array<String>) {
     println(createRandomRectangle().isSquare)

@@ -1,4 +1,4 @@
-package com.yohwan.grammar.kotlininaction
+package com.yohwan.grammar.kotlininaction.chapter2
 
 data class Person(
     val name: String,

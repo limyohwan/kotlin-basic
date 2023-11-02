@@ -1,4 +1,4 @@
-package com.yohwan.grammar.kotlininaction
+package com.yohwan.grammar.kotlininaction.chapter2
 
 class Person2(
     val name: String, // val은 읽기 전용 프로퍼티로 비공개 필드와 필드를 읽는 단순한 공개 게터를 만들어냄

@@ -1,4 +1,4 @@
-package com.yohwan.grammar.kotlininaction
+package com.yohwan.grammar.kotlininaction.chapter2
 
 enum class Color(
     val r: Int,
@@ -27,7 +27,7 @@ fun getMnemonic(color: Color) =
 
 fun getWarmth(color: Color) =
     when (color) {
-        Color.RED, Color.ORANGE, Color.YELLOW  -> "warm"
+        Color.RED, Color.ORANGE, Color.YELLOW -> "warm"
         Color.GREEN -> "neutral"
         Color.BLUE -> "cold"
     }
@@ -47,7 +47,7 @@ fun mix(c1: Color, c2: Color) =
 
 // 위의 setOf를 자주 호출하게 되면 불필요한 가비지 객체가 늘어나게됨
 // when은 아무 인자도 없이 사용할 수 있으며 각 분기의 조건이 불리언 결과를 계산하는 식이어야 함 -> 가독성은 떨어짐
-fun mixOptimized(c1:Color, c2:Color) =
+fun mixOptimized(c1: Color, c2: Color) =
     when {
         (c1 == Color.RED && c2 == Color.YELLOW) || (c1 == Color.YELLOW && c2 == Color.RED) -> Color.ORANGE
         (c1 == Color.YELLOW && c2 == Color.BLUE) || (c1 == Color.BLUE && c2 == Color.YELLOW) -> Color.GREEN
