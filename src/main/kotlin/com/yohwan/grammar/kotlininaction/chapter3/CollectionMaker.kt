@@ -30,19 +30,19 @@ fun createHashMap(): HashMap<Int, String> {
 }
 // 코틀린이 자신만의 컬렉션 기능을 제공하지 않는 이유는 표준 자바 컬렉션을 활용하면 자바 코드와 상호작용하기 쉽기 때문임
 
-fun <T> joinToString(
-    collection: Collection<T>,
-    separator: String =", ",
-    prefix: String = "",
-    postfix: String = "" // 함수에 디폴트 값을 지정하여 불필요한 오버로딩을 피할 수 있음
-) : String {
-    val result = StringBuilder(prefix)
-
-    for ((index, element) in collection.withIndex()) {
-        if (index > 0) result.append(separator)
-        result.append(element)
-    }
-
-    result.append(postfix)
-    return result.toString()
-}
+//fun <T> joinToString(
+//    collection: Collection<T>,
+//    separator: String =", ",
+//    prefix: String = "",
+//    postfix: String = "" // 함수에 디폴트 값을 지정하여 불필요한 오버로딩을 피할 수 있음
+//) : String {
+//    val result = StringBuilder(prefix)
+//
+//    for ((index, element) in collection.withIndex()) {
+//        if (index > 0) result.append(separator)
+//        result.append(element)
+//    }
+//
+//    result.append(postfix)
+//    return result.toString()
+//}
