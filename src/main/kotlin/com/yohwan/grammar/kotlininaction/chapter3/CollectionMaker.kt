@@ -15,6 +15,12 @@ fun main(args: Array<String>) {
     createdHashMap.forEach { (t, u) ->
         println("$t : $u")
     }
+
+    val list = listOf(1, 2, 3)
+    println(list.joinToString2(separator = ";", prefix = "(", postfix = ")")) // 컬렉션 확장함수를 사용한 예시
+    // 확장함수는 단지 정적 메소드 호출에 대한 문법적인 편의(syntatic sugar)일 뿐임
+
+    println(listOf("one", "two", "three").join("||"))
 }
 
 fun createHashSet(): HashSet<Int> {

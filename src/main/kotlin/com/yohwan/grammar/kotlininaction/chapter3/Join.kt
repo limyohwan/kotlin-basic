@@ -36,3 +36,25 @@ val UNIX_LINE_SEPARATOR = "\n"
 
 const val STATIC_UNIX_LINE_SEPARATOR = "\n"
 // const를 사용해야 public static final 필드로 컴파일 할 수 있음(원시 타입과 String 타입의 프로퍼티만 const로 지정가능)
+
+fun <T> Collection<T>.joinToString2( // joinToString을 Collection<T>에 대한 확장함수로 만듬
+    separator: String =", ",
+    prefix: String = "",
+    postfix: String = ""
+) : String {
+    val result = StringBuilder(prefix)
+
+    for ((index, element) in this.withIndex()) {
+        if (index > 0) result.append(separator)
+        result.append(element)
+    }
+
+    result.append(postfix)
+    return result.toString()
+}
+
+fun Collection<String>.join( // 클래스가 아닌 더 구체적인 타입을 수신 객체 타입으로 지정가능함
+    separator: String =", ",
+    prefix: String = "",
+    postfix: String = ""
+) = joinToString2(separator, prefix, postfix)

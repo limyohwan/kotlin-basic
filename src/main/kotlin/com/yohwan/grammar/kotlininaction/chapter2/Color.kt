@@ -1,5 +1,12 @@
 package com.yohwan.grammar.kotlininaction.chapter2
 
+import com.yohwan.grammar.kotlininaction.chapter3.lastChar
+// 확장함수는 임포트 해야하며 한 클래스에 같은 이름의 확장함수가 둘 이싱있어서 이름이 충돌하는 경우가 자주 생길 수 있음
+// import com.yohwan.grammar.kotlininaction.chapter3.*
+// *도 사용 가능
+// import com.yohwan.grammar.kotlininaction.chapter3.lastChar as last
+// as를 통해 다른 이름으로 부를 수도 있음
+
 enum class Color(
     val r: Int,
     val g: Int,
@@ -59,5 +66,7 @@ fun mixOptimized(c1: Color, c2: Color) =
 fun main(args: Array<String>) {
     println(Color.BLUE.rgb())
     println(getMnemonic(Color.BLUE))
+    println("임요환".lastChar())
+//    println("임요환".last())
 }
 
