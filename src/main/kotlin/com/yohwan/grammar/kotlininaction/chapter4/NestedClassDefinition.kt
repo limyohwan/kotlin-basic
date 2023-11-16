@@ -1,6 +1,5 @@
 package com.yohwan.grammar.kotlininaction.chapter4
 
-import com.yohwan.grammar.kotlininaction.chapter2.eval2
 import java.io.Serializable
 
 interface State: Serializable
