@@ -1,14 +1,14 @@
 package com.yohwan.grammar.kotlininaction.chapter2
 
+fun main(args: Array<String>) {
+    playDifficultFizzBuzz()
+}
+
 fun fizzBuzz(i: Int) = when {
     i % 15 == 0 -> "FizzBuzz"
     i % 3 == 0 -> "Fizz"
     i % 5 == 0 -> "Buzz"
     else -> "$i"
-}
-
-fun main(args: Array<String>) {
-    playDifficultFizzBuzz()
 }
 
 //일반 피즈버즈 게임

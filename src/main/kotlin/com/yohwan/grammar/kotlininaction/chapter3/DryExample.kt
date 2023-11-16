@@ -1,6 +1,9 @@
 package com.yohwan.grammar.kotlininaction.chapter3
 
 // 반복하지 마라(DRY, Don't Repeat Yourself) DRY 원칙
+fun main(args: Array<String>) {
+    saveUser4(User(1, "", ""))
+}
 
 class User(val id: Int, val name: String, val address: String)
 
@@ -54,8 +57,4 @@ fun saveUser4(user: User) {
     user.validateBeforeSave() // 함수가 중첩되어 깊이가 깊어지면 코드를 읽기가 상당히 어려워지므로 한 단계만 함수를 중첩시키는 것을 권장함
 
     // save to db
-}
-
-fun main(args: Array<String>) {
-    saveUser4(User(1, "", ""))
 }

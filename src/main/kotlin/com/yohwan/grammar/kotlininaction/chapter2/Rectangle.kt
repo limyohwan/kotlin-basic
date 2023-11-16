@@ -2,6 +2,14 @@ package com.yohwan.grammar.kotlininaction.chapter2
 
 import java.util.*
 
+fun main(args: Array<String>) {
+    val rectangle = Rectangle(41, 43)
+    println(rectangle.isSquare)
+//    println(rectangle.isSquare())
+    // 위 두방식을 전부 컴파일하지 못함
+    // 두방식의 차이는 가독성임, 클래스의 특성을 정의하고 싶다면 프로퍼티로 그 특성을 정의해야함
+}
+
 class Rectangle(
     val height: Int,
     val width: Int
@@ -15,12 +23,4 @@ class Rectangle(
 fun createRandomRectangle(): Rectangle {
     val random = Random()
     return Rectangle(random.nextInt(), random.nextInt())
-}
-
-fun main(args: Array<String>) {
-    val rectangle = Rectangle(41, 43)
-    println(rectangle.isSquare)
-//    println(rectangle.isSquare())
-    // 위 두방식을 전부 컴파일하지 못함
-    // 두방식의 차이는 가독성임, 클래스의 특성을 정의하고 싶다면 프로퍼티로 그 특성을 정의해야함
 }

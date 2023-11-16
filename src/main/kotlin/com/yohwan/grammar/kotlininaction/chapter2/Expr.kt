@@ -1,5 +1,9 @@
 package com.yohwan.grammar.kotlininaction.chapter2
 
+fun main(args: Array<String>) {
+    println(eval(Sum(Sum(Num(1), Num(2)), Num(4))))
+}
+
 interface Expr
 class Num(val value: Int) : Expr
 class Sum(val left: Expr, val right: Expr) : Expr
@@ -55,7 +59,3 @@ fun evalWithLogging(e: Expr) : Int =
         else -> throw IllegalArgumentException("Unknown expression")
     }
 // 복잡한 분기가 들어있는 when 사용
-
-fun main(args: Array<String>) {
-    println(eval(Sum(Sum(Num(1), Num(2)), Num(4))))
-}

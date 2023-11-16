@@ -1,6 +1,11 @@
 package com.yohwan.grammar.kotlininaction.chapter4
 
 // 상속을 허용하지 않는 클래스에 데코레이터 패턴을 사용하여 해결함
+fun main(args: Array<String>) {
+    val cset = CountingSet<Int>()
+    cset.addAll(listOf(1,1,2))
+    println("${cset.objectsAdded} objects were added, ${cset.size} remain")
+}
 
 class DelegatingCollection<T> : Collection<T> { // Collection 같이 비교적 단순한 인터페이스를 구현하면서 아무 동작도 변경하지 않는 데코레이터를 만들 때조차도 다음과 같이 복잡한 코드를 작성해야 함
     private val innerList = arrayListOf<T>()
@@ -36,10 +41,4 @@ class CountingSet<T>( // CountingSet과 MutableCollection의 구현 방식에 �
         objectsAdded += c.size
         return innerSet.addAll(c)
     }
-}
-
-fun main(args: Array<String>) {
-    val cset = CountingSet<Int>()
-    cset.addAll(listOf(1,1,2))
-    println("${cset.objectsAdded} objects were added, ${cset.size} remain")
 }

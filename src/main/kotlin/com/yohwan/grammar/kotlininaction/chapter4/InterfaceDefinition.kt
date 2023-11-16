@@ -1,5 +1,12 @@
 package com.yohwan.grammar.kotlininaction.chapter4
 
+fun main(args: Array<String>) { // 자바에서는 상속은 extends 구현은 implements 키워드를 사용하지만 코틀린에서는 콜론(:)을 붙여 처리함
+    val button = Button()
+    button.showOff()
+    button.setFocus(true)
+    button.click()
+}
+
 interface Clickable {
     fun click()
     fun showOff() { // 자바와 달리 메서드 본문을 추가하는 것만으로 default 메서드를 구현할 수 있음
@@ -25,11 +32,4 @@ class Button : Clickable, Focusable {
         super<Clickable>.showOff() // super<T>로 상위 타입의 메서드를 호출할 수 있음
         super<Focusable>.showOff()
     }
-}
-
-fun main(args: Array<String>) { // 자바에서는 상속은 extends 구현은 implements 키워드를 사용하지만 코틀린에서는 콜론(:)을 붙여 처리함
-    val button = Button()
-    button.showOff()
-    button.setFocus(true)
-    button.click()
 }

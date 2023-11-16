@@ -7,6 +7,13 @@ import com.yohwan.grammar.kotlininaction.chapter3.lastChar
 // import com.yohwan.grammar.kotlininaction.chapter3.lastChar as last
 // as를 통해 다른 이름으로 부를 수도 있음
 
+fun main(args: Array<String>) {
+    println(Color.BLUE.rgb())
+    println(getMnemonic(Color.BLUE))
+    println("임요환".lastChar())
+//    println("임요환".last())
+}
+
 enum class Color(
     val r: Int,
     val g: Int,
@@ -62,11 +69,3 @@ fun mixOptimized(c1: Color, c2: Color) =
     }
 
 // 상수(enum 상수, 숫자 리터럴)만 사용가능했던 자바와는 달리 코틀린에서는 임의의 객체를 허용함
-
-fun main(args: Array<String>) {
-    println(Color.BLUE.rgb())
-    println(getMnemonic(Color.BLUE))
-    println("임요환".lastChar())
-//    println("임요환".last())
-}
-

@@ -1,5 +1,24 @@
 package com.yohwan.grammar.kotlininaction.chapter4
 
+fun main(args: Array<String>) {
+    Example(HiExampleListener()).startExample()
+
+    Example(object : ExampleListener{ // 코틀린의 익명 객체 사용법
+        override fun calculate(value: String) {
+            println("bye")
+        }
+    }).startExample()
+
+    val listener = object : ExampleListener { // 변수에도 할당 가능함
+        override fun calculate(value: String) {
+            println("hello")
+        }
+    }
+    // 객체 선언과 달리 익명 객체는 싱글턴이 아님, 객체 식이 쓰일 때마다 새로운 인스턴스가 생성됨
+
+    introduceMyself()
+}
+
 interface ExampleListener {
     fun calculate(value: String)
 }
@@ -26,23 +45,4 @@ fun introduceMyself() {
             println("my name = ${name}, age = ${age}")
         }
     }).startExample()
-}
-
-fun main(args: Array<String>) {
-    Example(HiExampleListener()).startExample()
-
-    Example(object : ExampleListener{ // 코틀린의 익명 객체 사용법
-        override fun calculate(value: String) {
-            println("bye")
-        }
-    }).startExample()
-
-    val listener = object : ExampleListener { // 변수에도 할당 가능함
-        override fun calculate(value: String) {
-            println("hello")
-        }
-    }
-    // 객체 선언과 달리 익명 객체는 싱글턴이 아님, 객체 식이 쓰일 때마다 새로운 인스턴스가 생성됨
-
-    introduceMyself()
 }

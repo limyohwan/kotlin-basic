@@ -1,5 +1,17 @@
 package com.yohwan.grammar.kotlininaction.chapter4
 
+fun main(args: Array<String>) {
+    println(PrivateMember("test@kotlinlang.org").nickname)
+    println(SubscribingMember("test@kotlinlang.org").nickname)
+
+    val worker = Worker("Alice")
+    worker.address = "Elsenheimerstrasse 47" // 내부적으로 setter 메서드를 호출
+
+    val lengthCounter = LengthCounter()
+    lengthCounter.addWord("HI!")
+    println(lengthCounter.counter)
+}
+
 interface Member { // 코틀린은 인터페이스에 추상 프로퍼티 선언을 넣을 수 있음
     val nickname: String
 }
@@ -41,16 +53,4 @@ class LengthCounter {
     fun addWord(word: String) {
         counter += word.length
     }
-}
-
-fun main(args: Array<String>) {
-    println(PrivateMember("test@kotlinlang.org").nickname)
-    println(SubscribingMember("test@kotlinlang.org").nickname)
-
-    val worker = Worker("Alice")
-    worker.address = "Elsenheimerstrasse 47" // 내부적으로 setter 메서드를 호출
-
-    val lengthCounter = LengthCounter()
-    lengthCounter.addWord("HI!")
-    println(lengthCounter.counter)
 }
