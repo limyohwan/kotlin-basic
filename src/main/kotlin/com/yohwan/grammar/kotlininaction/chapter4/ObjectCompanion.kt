@@ -38,6 +38,28 @@ class Slave(val name: String) {
     }
 }
 
+interface JSONFactory<T> {
+    fun fromJSON(jsonText: String) : T
+}
+
+class Slave2(val name: String) {
+    companion object : JSONFactory<Slave2> { // 동반 객체가 인터페이스를 구현할 수 있음
+        override fun fromJSON(jsonText: String): Slave2 = Slave2(jsonText) // 클래스의 동반 객체는 일반 객체와 비슷한 방식으로 클래스에 정의된 인스턴스를 가리키는 정적 필드로 컴파일됨
+    }
+}
+
+// 비즈니스 로직 모듈
+class Beverage(val name: String, val kind: String) {
+    companion object { // 비어있는 동반 객체 선언
+
+    }
+}
+
+// 클라이언트 / 서버 통신 모듈
+fun Beverage.Companion.fromJSON(json: String) : Beverage { // 확장 함수 선언
+    return Beverage("포카리", "이온음료") // 동반 객체 안에서 fromJSON 함수를 정의한 것처럼 사용할 수 있음, 클래스 멤버 함수처럼 보이지만 실제로는 멤버 함수가 아님, 빈 동반 객체가 꼭 있어야함
+}
+
 fun main(args: Array<String>) {
     A.bar()
 
@@ -47,4 +69,6 @@ fun main(args: Array<String>) {
 
     val slave = Slave.Loader.fromJSON("{name : 'Jack'}")
     println(slave.name)
+
+    val b = Beverage.fromJSON("{}")
 }
