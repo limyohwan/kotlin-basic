@@ -1,6 +1,9 @@
 package com.yohwan.grammar.kotlininaction.chapter6
 
+import java.awt.event.ActionEvent
 import java.util.*
+import javax.swing.AbstractAction
+import javax.swing.JList
 
 fun main(args: Array<String>) {
 //    strLen(null) // 컴파일 에러 발생
@@ -27,6 +30,12 @@ fun main(args: Array<String>) {
     printShippingLabel(yohwan)
 //    printShippingLabel(person) // exception 발생
 
+    val h1 = Human("yohwan", "lim")
+    val h2 = Human("yohwan", "lim")
+    println(h1 == h2) // == 연산자는 equals를 호출함
+    println(h1.equals(42))
+
+//    ignoreNulls(null) // NPE 발생
 }
 
 fun strLen(s: String) = s.length
@@ -50,6 +59,7 @@ class Person(val name: String, val company: Company?)
 
 fun Person.countryName(): String {
     val country = this.company?.address?.country // 여러 안전한 호출 연산자를 인쇄해 사용함
+    // this.company!!.address!!.country -> 이런식의 코드는 절대 작성하지 말자
     return if (country != null) country else "Unknown"
 }
 
@@ -68,3 +78,30 @@ fun foo(s: String?) {
 fun strLenSafeElvis(s: String?) = s?.length ?: 0
 
 fun Person.countryNameElvis(): String = company?.address?.country ?: "Unknown"
+
+class Human(val firstName: String, val lastName: String) {
+    override fun equals(other: Any?): Boolean {
+        val otherHuman = other as? Human ?: return false // 타입이 서로 일치하지 않으면 false를 반환함
+
+        return otherHuman.firstName == firstName && otherHuman.lastName == lastName // 안전한 캐스트를 하고나면 otherHuman이 Human 타입으로 스마트 캐스트됨
+    }
+
+    override fun hashCode(): Int =
+        firstName.hashCode() * 37 + lastName.hashCode()
+}
+
+fun ignoreNulls(s: String?) {
+    val sNotNull: String = s!! // null이 아님을 단언함
+    println(sNotNull.length)
+}
+
+class CopyRowAction(val list: JList<String>) : AbstractAction() {
+    override fun isEnabled() : Boolean =
+        list.selectedValue != null
+
+    override fun actionPerformed(e: ActionEvent?) { // actionPerformed는 isEnabled가 true인 경우에만 호출됨
+        val value = list.selectedValue!! // val value = list.selectedValue ?: return 처럼 non-null한 값을 얻어야하는데 이러면 selectedValue가 null일 시 조기 종료 될 수 있으므로 value에 단언을 주어 항상 null이 아니라고 단언함
+        // 클립보드 복사 로직 ...
+    }
+
+}
