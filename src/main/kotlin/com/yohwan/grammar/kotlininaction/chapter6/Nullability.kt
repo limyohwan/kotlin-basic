@@ -36,6 +36,17 @@ fun main(args: Array<String>) {
     println(h1.equals(42))
 
 //    ignoreNulls(null) // NPE 발생
+
+    val email: String? = "yohwan@naver.com"
+    email?.let { sendEmailTo(it) } // let을 사용하여 null일 수 있는지 검사를 하고 그 결과를 변수에 넣는 작업을 간단히 처리할 수 있음
+
+    val undefinedEmail: String? = null
+    undefinedEmail?.let { sendEmailTo(it) }
+
+    val undefinedPerson: Person? = getTheBestPersonInTheWorld()
+    if(undefinedPerson != null) sendEmailTo(undefinedPerson.name)
+
+    getTheBestPersonInTheWorld()?.let { sendEmailTo(it.name) } // let을 활용하면 위와같은 복잡한 식을 아래와 같이 간단하게 처리할 수 있음, let 호출이 중첩되어 코드가 복잡해지는 경우 if문을 사용해 한번에 처리하는 편이 나음
 }
 
 fun strLen(s: String) = s.length
@@ -103,5 +114,10 @@ class CopyRowAction(val list: JList<String>) : AbstractAction() {
         val value = list.selectedValue!! // val value = list.selectedValue ?: return 처럼 non-null한 값을 얻어야하는데 이러면 selectedValue가 null일 시 조기 종료 될 수 있으므로 value에 단언을 주어 항상 null이 아니라고 단언함
         // 클립보드 복사 로직 ...
     }
-
 }
+
+fun sendEmailTo(email: String) {
+    println("sending email to $email")
+}
+
+fun getTheBestPersonInTheWorld() : Person? = null
