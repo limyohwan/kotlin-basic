@@ -5,6 +5,7 @@ import java.util.*
 import javax.swing.AbstractAction
 import javax.swing.JList
 
+// 6.1.1 ~ 6.1.7
 fun main(args: Array<String>) {
 //    strLen(null) // 컴파일 에러 발생
     strLenSafe(null)
