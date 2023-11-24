@@ -1,8 +1,9 @@
 package com.yohwan.grammar.kotlininaction.chapter6
 
 import org.springframework.util.Assert
+import java.util.*
 
-// 6.1.8 ~
+// 6.1.8 ~ 6.1.11
 fun main(args: Array<String>) {
     verifyUserInput("")
     verifyUserInput(null)
@@ -55,4 +56,29 @@ fun <T> printHashCode(t : T) { // 타입 파라미터 T는 기본적으로 null�
 
 fun <T: Any> printNonNullHashCode(t : T) {
     println(t.hashCode()) // t 가 null이 될 수 없음
+}
+
+fun yellAt(person: ExamplePerson) {
+    println(person.name.uppercase(Locale.getDefault()) + "!!!") // uppercase 수신 객체가 null이면 예외가 발생함
+}
+
+fun yellAtSafe(person: ExamplePerson) {
+    println((person.name ?: "Anyone").uppercase(Locale.getDefault()) + "!!!") // null 안전성 연산을 활용해도됨
+}
+
+// 플랫폼 타입 = 코틀린이 널 관련 정보를 알 수 없는 타입
+// String!(타입!) 에서 !는 타입의 널 가능성에 대해 아무런 정보가 없다는 뜻임, 보통 자바코드를 코틀린에서 사용하려할 때 많이 발생함
+
+class StringPrinter : StringProcessor {
+    override fun process(value: String) { // 코틀린에서 자바 인터페이스를 구현할 때 null이 될 수 있는 타입인지 아닌지를 결정해야 함
+        println(value)
+    }
+}
+
+class NullableStringPrinter : StringProcessor {
+    override fun process(value: String?) {
+        if (value != null) {
+            println(value)
+        }
+    }
 }
