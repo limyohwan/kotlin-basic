@@ -26,6 +26,36 @@ fun main(args: Array<String>) {
 
     val list = listOf("a", "b", "c")
     printInUppercase(list)
+
+    for(i in args.indices) { // 배열의 인덱스 값의 범위에 대해 이터레이션하기 위해 array.indices 확장 함수를 사용
+        println("Argument $i is : ${args[i]}") // array[index]로 인덱스를 사용해 배열 원소에 접근
+    }
+
+    // Array 생성
+    // arrayOf = 함수에 원소를 넘겨 배열 생성
+    // arrayOfNulls = 함수에 정수 값을 인자로 넘기면 모든 원소가 Null이고 인자로 넘긴 값과 크기가 같은 배열을 만들 수 있음
+    // Array = 생성자는 배열 크기와 람다를 인자로 받아 람다를 호출해서 각 배열 원소를 초기화 해줌
+    val letters = Array<String>(26) { i -> ('a' + i).toString() }
+    println(letters.joinToString(""))
+
+    val strings = listOf("a", "b", "c")
+    println("%s/%s/%s".format(*strings.toTypedArray())) // vararg 인자를 넘기기 위해 스프레드 연산자(*)를 써야 함
+
+    // Array<Int>는 해당 타입의 박싱된 클래스를 사용함(예: Int -> Integer)
+    // 원시 타입을 선언하려면 IntArray -> int[] 를 사용해야 함
+    val fiveZeros = IntArray(5)
+    val fiveZerosToo = intArrayOf(0, 0, 0, 0, 0)
+
+    val squares = IntArray(5) { i -> (i + 1) * (i + 1) }
+    println(squares.joinToString())
+
+    val intList = listOf(1, 2, 3)
+    intList.toIntArray() // 박싱된 값이 들어있는 컬렉션이나 배열이 있다면 toIntArray등의 변환 함수를 사용해 박싱하지 않은 값이 있는 배열로 만들 수 있음
+
+    // 코틀린 배열은 컬렉션에서 사용할 수 있는 모든 확장 함수를 제공함
+    args.forEachIndexed { index, element ->
+        println("Argument $index is: $element")
+    }
 }
 
 fun readNumbers(reader: BufferedReader) : List<Int?> { // List<Int?> = 리스트 안에 원소가 널이 될 수 있음, List<Int>? = 리스트 자체가 널이 될 수 있음, List<Int?>? = 리스트, 원소 둘 다 널이 될 수 있음
