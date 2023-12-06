@@ -19,6 +19,12 @@ fun main(args: Array<String>) {
     twoAndThree { a, b -> a * b }
 
     println("ab1c".filter { it in 'a'..'z' })
+
+    val letters = listOf("Alpha", "Beta")
+    println(letters.joinToString())
+    println(letters.joinToString { it.lowercase() })
+    println(letters.joinToString(separator = "! ", postfix = "! ", transform = { it.uppercase()}))
+
 }
 
 fun performRequest(
@@ -68,3 +74,51 @@ CollectionsKt.forEach(strings, s -> // Strings는 확장함수의 수신 객체 
     return Unit.INSTANCE; // Unit 타입의 값을 명시적으로 반환해야함
 });
  */
+
+fun <T> Collection<T>.joinToString(
+    separator: String = ", ",
+    prefix: String = "",
+    postfix: String = ""
+) : String {
+    val result = StringBuilder(prefix)
+    for ((index, element) in this.withIndex()) {
+        if (index > 0) result.append(separator)
+        result.append(element)
+    }
+
+    result.append(postfix)
+    return result.toString()
+}
+
+fun <T> Collection<T>.joinToString(
+    separator: String = ", ",
+    prefix: String = "",
+    postfix: String = "",
+    transform: (T) -> String = { it.toString() }
+) : String {
+    val result = StringBuilder(prefix)
+    for ((index, element) in this.withIndex()) {
+        if (index > 0) result.append(separator)
+        result.append(transform(element))
+    }
+
+    result.append(postfix)
+    return result.toString()
+}
+
+fun <T> Collection<T>.joinToString(
+    separator: String = ", ",
+    prefix: String = "",
+    postfix: String = "",
+    transform: ((T) -> String)? = null // 널이 될 수 있는 함수 타입 파라미터
+) : String {
+    val result = StringBuilder(prefix)
+    for ((index, element) in this.withIndex()) {
+        if (index > 0) result.append(separator)
+        val str = transform?.invoke(element) ?: element.toString() // 널체크
+        result.append(str)
+    }
+
+    result.append(postfix)
+    return result.toString()
+}
