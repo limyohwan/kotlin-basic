@@ -1,4 +1,4 @@
-# kotlin-grammar
+# kotlin-basic
 
 ## 인프런 강의
 - Kotlin 문법 총 정리 - 1시간
