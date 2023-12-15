@@ -12,6 +12,32 @@ fun main(args: Array<String>) {
     }
     println(contacts.filter(contactListFilters.getPredicate())) // filter의 인자로 getPredicate의 반환 함수를 넘김
 
+    val log = listOf(
+        SiteVisit("/", 34.0, OS.WINDOWS),
+        SiteVisit("/", 22.0, OS.MAC),
+        SiteVisit("/login", 12.0, OS.WINDOWS),
+        SiteVisit("/signup", 8.0, OS.IOS),
+        SiteVisit("/", 16.3, OS.ANDROID)
+    )
+    // OS.WINDOWS에만 적용되는 평균 값을 확장함수를 사용하여 OS를 인자로 받음
+    val averageWindowsDuration = log
+        .filter { it.os == OS.WINDOWS }
+        .map(SiteVisit::duration)
+        .average()
+    println(averageWindowsDuration)
+    // 확장함수를 사용하여 중복제거, 가독성 향상
+    println(log.averageDurationFor(OS.WINDOWS))
+    println(log.averageDurationFor(OS.MAC))
+
+    val averageMobileDuration = log
+        .filter { it.os in setOf(OS.IOS, OS.ANDROID) }
+        .map(SiteVisit::duration)
+        .average()
+    println(averageMobileDuration)
+    // 고차 함수를 사용하여 중복제거, 코드의 일부분을 복사해 붙여 넣고 싶은 경우 그 코드를 람다로 만들어 중복을 제거할 수 있음
+    println(log.averageDurationFor {
+        it.os == OS.IOS && it.path == "/signup"
+    })
 }
 
 enum class Delivery { STANDARD, EXPEDITED }
@@ -48,3 +74,17 @@ class ContactListFilters {
         return { startsWithPrefix(it) && it.phoneNumber != null } // 람다 반환
     }
 }
+
+data class SiteVisit(
+    val path: String,
+    val duration: Double,
+    val os: OS
+)
+
+enum class OS { WINDOWS, LINUX, MAC, IOS, ANDROID }
+
+fun List<SiteVisit>.averageDurationFor(os: OS) =
+    filter { it.os == os }.map(SiteVisit::duration).average()
+
+fun List<SiteVisit>.averageDurationFor(predicate: (SiteVisit) -> Boolean) =
+    filter(predicate).map(SiteVisit::duration).average()
