@@ -65,6 +65,6 @@ class LockOwner2(val lock: Lock) {
 //}
 
 // 둘 이상의 람다를 인자로 받는 함수에서 일부 람다만 인라인하는 경우에 noinline 변경자를 파라미터 이름 앞에 붙여 금지할 수 있음
-inline fun foo(inlined: () -> Unit, noinline notInlined: () ->) {
+inline fun foo(inlined: () -> Unit, noinline notInlined: () -> Unit) {
     // ...
 }
