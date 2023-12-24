@@ -70,7 +70,7 @@ fun <T: Comparable<T>> max(first: T, second: T): T { // 함수의 인자들은 �
     return if (first > second) first else second
 }
 
-// 기입 파라미터에 제약 가하
+// 기입 파라미터에 제약을 가하기
 fun <T> ensureTrailingPeriod(seq: T) where T : CharSequence, T : Appendable { // 타입 파라미터의 제약 목록
     if (!seq.endsWith('.')) { // CharSequence 인터페이스의 확장함수 호출
         seq.append('.') // Appendable 인터페이스의 메소드 호출
