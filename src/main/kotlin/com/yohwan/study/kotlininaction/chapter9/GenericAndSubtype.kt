@@ -24,6 +24,15 @@ fun main(args: Array<String>) {
     // Any는 String의 상위 타입임
     // 타입 B(String)가 A(Any)의 하위타입인 경우 Consumer<A>가 Consumer<B>의 하위 타입인 관계가 성립하면 제네릭 클래스 Consumer<T>는 타입 인자 T에 대해 반공변이다
     // in 키워드는 이 키워드가 붙은 타입이 이 클래스 메소드 안으로 전달돼 메소드에 의해 소비된다는 뜻임
+
+    val ints = mutableListOf(1, 2, 3)
+    val anyItems = mutableListOf<Any>()
+    copyData2(ints, anyItems) // int가 any의 하위타입으로 호출 가능
+    println(anyItems)
+
+    val list: MutableList<out Number> = mutableListOf()
+//    list.add(42) // 컴파일 에러 발생 = 타입 파라미터 T를 함수 인자 타입(in 위치에 있는 타입)으로 사용하지 못하게 막음
+
 }
 
 fun printContents(list: Array<Any>) {
@@ -132,3 +141,37 @@ interface Function1<in P, out R> { // P(함수 파라미터의 타입), R(함수
     operator fun invoke(p: P) : R
 }
 // 자바는 이를 지원하지 않고 와일드 카드를 사용해 그때그때 변성을 지정해야 함
+
+// 선언 지점 변성(declaration site variance) = 클래스를 선언하면서 변성을 지정하면 그 클래스를 사용하는 모든 장소에 변성 지정자가 영향을 끼침 -> 더 간결하고 우아한 코드를 작성할 수 있음
+// 사용 지점 변성(use-site variance) = 타입 파라미터가 있는 타입을 사용하때마다 해당 타입 파라미터를 하위 타입이나 상위 타입 중 어떤 타입으로 대치할 수 있는지 명시해야 함 -> 자바의 와일드 카드(? extends, ? super) 타입
+//public interface Stream {
+//    <R> Stream <R> map(Function<? super T, ? extends R> mapper);
+//}
+
+// 무공변 파라미터 타입을 사용하는 데이터 복사 함수
+fun <T> copyData(source: MutableList<T>, destination: MutableList<T>) {
+    for (item in source) {
+        destination.add(item) // 문자열이 원소인 컬렉션에 객체의 컬렉션으로 원소를 복사해도 아무 문제가 없음
+    }
+}
+
+// 타입 파라미터가 둘인 데이터 복사 함수
+fun <T: R, R> copyData2(source: MutableList<T>, destination: MutableList<R>) { // source의 원소는 destination의 하위 타입이어야 함
+    for (item in source) {
+        destination.add(item)
+    }
+}
+
+// 아웃-프로젝션 타입 파라미터를 사용하는 데이터 복사 함수, MutableList<out T> = MutableList<? extends T>
+fun <T> copyData3(source: MutableList<out T>, destination: MutableList<T>) { // out 키워드를 타입을 사용하는 위치 앞에 붙이면 T 타입을 int 위치에 사용하는 메소드를 호출하지 않는다는 의미임
+    for (item in source) {
+        destination.add(item)
+    }
+}
+
+// in 프로젝션 타입 파라미터를 사용하는 데이터 복사 함수, MutableList<in T> = MutableList<? super T>
+fun <T> copyData4(source: MutableList<T>, destination: MutableList<in T>) { // 원본 리스트 원소 타입의 상위 타입을 대상 리스트 원소 타입으로 허용함
+    for (item in source) {
+        destination.add(item)
+    }
+}
