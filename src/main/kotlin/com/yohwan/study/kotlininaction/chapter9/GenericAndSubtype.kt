@@ -1,6 +1,8 @@
 package com.yohwan.study.kotlininaction.chapter9
 
-import kotlin.Comparable as Comparable1
+import kotlin.random.Random
+import kotlin.collections.List
+import kotlin.reflect.KClass
 
 // 변성(variance) = List<String> 과 List<Any>와 같이 기저 타입이 같고 타입 인자가 다른 여러 타입이 서로 어떤 관계가 있는지 설명하는 개념
 // 무공변(invariant) = 제네릭 타입을 인스턴스화할 때 타입 인자로 서로 다른 타입이 들어가면 인스턴스 타입 사이의 하위 타입 관계가 성립하지 않는 제네릭 타입
@@ -31,8 +33,32 @@ fun main(args: Array<String>) {
     println(anyItems)
 
     val list: MutableList<out Number> = mutableListOf()
-//    list.add(42) // 컴파일 에러 발생 = 타입 파라미터 T를 함수 인자 타입(in 위치에 있는 타입)으로 사용하지 못하게 막음
+//    list.add(42) // 컴파일 에러 발생 = 타입 파라미터 T를 함수 인자 타입(in 위치에 있는 타입)으로 사용하지 못하게 막음, add(element: E)가 in위치에서 사용됨
 
+    // Any?는 코틀린에서 모든 타입의 상위 타입임
+    val anyList: MutableList<Any?> = mutableListOf('a', 1, "qwe")
+    val chars = mutableListOf('a', 'b', 'c')
+    val unknownElements: MutableList<*> = if (Random.nextBoolean()) anyList else chars // MutableList<*> != MutableList<Any?>
+    // MutableList<*>는 MutableList<out Any?> 처럼 동작함 = 리스트에서 안전하게 Any? 타입의 원소를 가져올 수 있지만 타입을 모르는 리스트에 원소를 넣을 수는 없음, MyType<*>는 자바의 MyType<?>에 대응함
+//    unknownElements.add(42) // 컴파일 에러
+    println(unknownElements.first())
+
+    printFirst(listOf("svet"))
+
+    // KClass는 코틀린 클래스를 표현함
+    val validators = mutableMapOf<KClass<*>, FieldValidator<*>>()
+    validators[String::class] = DefaultStringValidator
+    validators[Int::class] = DefaultIntValidator
+
+//    validators[String::class]!!.validate("") // 검증 불가, 맵에 저장된 값음 FieldValidator<*>임
+    val stringValidator = validators[String::class] as FieldValidator<String> // 명시적 타입 캐스팅
+//    val stringValidator = validators[Int::class] as FieldValidator<String> // 타입을 잘못 명시하면 에러가 날 수 있음
+    println(stringValidator.validate(""))
+
+    Validators.registerValidator(String::class, DefaultStringValidator)
+    Validators.registerValidator(Int::class, DefaultIntValidator)
+    println(Validators[String::class].validate("Kotlin"))
+    println(Validators[Int::class].validate(42))
 }
 
 fun printContents(list: Array<Any>) {
@@ -174,4 +200,45 @@ fun <T> copyData4(source: MutableList<T>, destination: MutableList<in T>) { // �
     for (item in source) {
         destination.add(item)
     }
+}
+
+// 스타 프로젝션(star projection) = 제네릭 타입 인자 정보가 없음을 표현하기 위해 사용
+fun printFirst(list: List<*>) {
+    if (list.isNotEmpty()) {
+        println(list.first()) // Any? 타입을 반환함
+    }
+}
+
+fun <T> printFirst2(list: List<T>) {
+    if (list.isNotEmpty()) {
+        println(list.first()) // T 타입을 반환함
+    }
+}
+// 스타 프로젝션 코드가 더 간결함, 제네릭 타입 파라미터가 어떤 타입인지 굳이 알 필요가 없을 때 사용 가능
+
+interface FieldValidator<in T> { // T에 대해 반공변인 인터페이스
+    fun validate(input: T) : Boolean // T를 인 위치에서만 사용
+}
+
+object DefaultStringValidator : FieldValidator<String> {
+    override fun validate(input: String) = input.isNotEmpty()
+
+}
+
+object DefaultIntValidator : FieldValidator<Int> {
+    override fun validate(input: Int) = input > 0
+
+}
+
+// 캡슐화를 사용하여 타입 안전성을 보장하는 API 생성
+object Validators {
+    private val validators = mutableMapOf<KClass<*>, FieldValidator<*>>()
+
+    fun <T: Any> registerValidator(kClass: KClass<T>, fieldValidator: FieldValidator<T>) {
+        validators[kClass] = fieldValidator // 클래스와 검증기의 타입이 맞는 경우에만 집어넣음
+    }
+
+    @Suppress("UNCHECKED_CAST") // 경고 무시
+    operator fun <T: Any> get(kClass: KClass<T>) : FieldValidator<T> =
+        validators[kClass] as? FieldValidator<T> ?: throw IllegalArgumentException("No validator for ${kClass.simpleName}")
 }
