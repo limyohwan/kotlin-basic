@@ -1,7 +1,16 @@
 package com.yohwan.study.kotlininaction.chapter10
 
-fun main(args: Array<String>) {
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.kotlinModule
 
+fun main(args: Array<String>) {
+    val person = Person("Alice", 20)
+    val om = ObjectMapper()
+    om.registerModules(kotlinModule())
+    println(om.writeValueAsString(person))
+
+    val json = """{"name":"Alice","age":20}"""
+    println(om.readValue(json, Person::class.java))
 }
 
 @Deprecated("Use removeAt(index) instead.", ReplaceWith("removeAt(index)")) // Deprecated 사용 예제
@@ -37,3 +46,20 @@ fun remove(index: Int) {
 // @setparam: = 세터 파라미터
 // @delegate: = 위임 프로퍼티의 위임 인스턴스를 담아둔 필드
 // @file: = 파일 안에 선언된 최상위 함수와 프로퍼티를 담아두는 클래스
+
+fun test(list: List<*>) {
+    @Suppress("UNCHECKED_CAST") // 코틀린은 애노테이션 인자로 클래스나 함수 선언이나 타입 외에 임의의 식을 허용함
+    val strings = list as List<String>
+}
+
+// @Volatile = 자바의 volatile 키워드를 대신함
+// @Strictfp = 자바의 strictfp 키워드를 대신함
+// @JvmName = 코틀린 선언이 만들어내는 자바 필드나 메소드 이름을 변경함
+// @JvmStatic = 메소드, 객체 선언, 동반 객체에 ㅅ적용하면 그 요소가 자바 정적 메소드로 노출됨
+// @JvmOverloads =  디폴트 파라미터 값이 있는 함수에 대해 컴파일러가 자동으로 오버로딩한 함수를 생성해줌
+// @JvmField = 프로퍼티에 사용하면 게터나 세터가 없는 공개된 자바 필드로 프로퍼티를 노출시킴
+
+data class Person(
+    val name: String,
+    val age: Int
+)
