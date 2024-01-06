@@ -63,3 +63,12 @@ data class Person(
     val name: String,
     val age: Int
 )
+
+// 밑에 코드와 같음
+annotation class JsonName(val name: String) // 코틀린은 name, name은 첫번째 인자로 @JsonName(name = "first_name")은 @JsonName("first_name")과 같음
+
+/*
+public @interface JsonName {
+    String value(); // 자바는  value, value 메서드는 특별하며 어떤 애노테이션을 적용할 때 value를 제외한 모든 애트리뷰트에는 이름을 명시해야함
+}
+*/
