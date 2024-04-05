@@ -20,7 +20,7 @@ fun remove(index: Int) {
 
 // @MyAnnotation(MyClass::class) 클래스를 애노테이션 인자로 지정할 때 클래스 이름을 뒤에 넣어야 함
 // 배열을 인자로 지정하려면 @RequestMapping(path = arrayOf("/foo", "/bar")) 처럼 arrayOf 함수를 사용함
-// 가변 인자의 경ㅇ우 @JavaAnnotationWithArrayValue("abc", "foo", "bar") 처럼 arrayOf 함수를 쓰지 않아도 됨
+// 가변 인자의 경우 @JavaAnnotationWithArrayValue("abc", "foo", "bar") 처럼 arrayOf 함수를 쓰지 않아도 됨
 
 // 애노테이션 인자를 컴파일 시점에 알 수 있어야 하므로 프로퍼티를 애노테이션 인자로 사용하려면 const 변경자를 붙여함 -> const가 붙은 프로퍼티는 파일의 맨 위나 object 안에 선언해야 함, 원시 타입이나 String으로 초기화해야함
 //const val TEST_TIMEOUT = 100L
