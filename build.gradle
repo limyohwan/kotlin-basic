@@ -5,6 +5,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.3'
 	id 'org.jetbrains.kotlin.jvm' version '1.8.22'
 	id 'org.jetbrains.kotlin.plugin.spring' version '1.8.22'
+	id 'application'
 }
 
 group = 'com.yohwan'
@@ -12,6 +13,10 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
+}
+
+application {
+	mainClass = 'com.yohwan.study.GrammarApplication'
 }
 
 repositories {
