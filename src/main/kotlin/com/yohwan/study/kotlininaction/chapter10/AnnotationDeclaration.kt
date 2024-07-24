@@ -65,10 +65,23 @@ data class Person(
 )
 
 // 밑에 코드와 같음
-annotation class JsonName(val name: String) // 코틀린은 name, name은 첫번째 인자로 @JsonName(name = "first_name")은 @JsonName("first_name")과 같음
+//annotation class JsonName(val name: String) // 코틀린은 name, name은 첫번째 인자로 @JsonName(name = "first_name")은 @JsonName("first_name")과 같음
 
 /*
 public @interface JsonName {
     String value(); // 자바는  value, value 메서드는 특별하며 어떤 애노테이션을 적용할 때 value를 제외한 모든 애트리뷰트에는 이름을 명시해야함
 }
 */
+
+// 책에는 jkid(https://github.com/yole/jkid) 라이브러리를 사용하지만 나는 Jackson을 사용할 예정
+
+/*
+* @Retention 애노테이션
+* 클래스를 소스 수준에서만 유지할지, .class 파일에 저장할지, 실행 시점에 리플렉션을 사용해 접글할 수 있게 할지를 지정하는 메타애노테이션
+* 자바 컴파일러는 기본적으로 .class 파일에는 저잫아지만 런타임에는 사용할 수 없음
+* 하지만 코틀린에서는 런타임에도 사용할 수 있어야 하므로 기본적으로 RUNTIME을 지정함
+*
+* @Target 애노테이션
+* 지정하지 않으면 모든 선언에 적용할 수 있음
+* 클래스, 파일, 프로퍼티, 프로퍼티 접근자, 타입, 식 등에 대한 이넘(Enum) 정의가 들어가 있음
+* */
