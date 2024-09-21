@@ -1,8 +1,51 @@
 package com.yohwan.study.kotlininaction.chapter11
 
 fun main(args: Array<String>) {
+    val s = buildString {
+        it.append("Hello, ")
+        it.append("World!")
+    }
+    println(s)
 
+    val s2 = buildString2 {
+        this.append("Hello, ")
+        append("World!")
+    }
+    println(s2)
+
+    val appendExcl: StringBuilder.() -> Unit = { this.append("!") }
+    val stringBuilder = StringBuilder("Hi")
+    stringBuilder.appendExcl()
+    println(stringBuilder)
+    println(buildString3(appendExcl))
+
+    // with와 apply를 활용하여 코드를 간결하게 만들 수 있음
+    val map = mutableMapOf(1 to "one")
+    map.apply { this[2] = "two" }
+    with (map) { this[3] = "three" }
+    println(map)
 }
+
+// 일반 람다를 받는 buildString
+fun buildString(
+    buildAction: (StringBuilder) -> Unit
+): String {
+    val sb = StringBuilder()
+    buildAction(sb)
+    return sb.toString()
+}
+
+// 수신 객체 지정 람다를 사용해 다시 정의핸 buildString()
+fun buildString2(
+    buildAction: StringBuilder.() -> Unit
+): String {
+    val sb = StringBuilder()
+    sb.buildAction()
+    return sb.toString()
+}
+
+// buildString2를 축약한 버전
+fun buildString3(buildAction: StringBuilder.() -> Unit): String = StringBuilder().apply(buildAction).toString()
 
 /*
 * 깔끔한 API란?
