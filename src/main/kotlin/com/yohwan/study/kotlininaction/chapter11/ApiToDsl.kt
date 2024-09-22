@@ -35,7 +35,7 @@ fun buildString(
     return sb.toString()
 }
 
-// 수신 객체 지정 람다를 사용해 다시 정의핸 buildString()
+// 수신 객체 지정 람다를 사용해 다시 정의한 buildString()
 fun buildString2(
     buildAction: StringBuilder.() -> Unit
 ): String {
@@ -74,4 +74,6 @@ fun buildString3(buildAction: StringBuilder.() -> Unit): String = StringBuilder(
 * API는 메서드를 한번에 하나씩 호출함으로써 라이브러리를 사용함 -> 호출과 다른 호출 사이에 맥락을 알 수 없음(command-query API)
 * DSL은 람다를 중첩시키거나 메소드 호출을 연쇄시키는 방식으로 구조를 만듬
 * DSL은 같은 문맥을 함수 호출 시마다 반복하지 않고도 재사용할 수 있음, 메소드 호출을 연쇄시킬 수 있음 -> 가독성이 좋아짐
+*
+* 수신 객체 지정 람다는 구조화된 API를 만들 때 도움이 되는 강력한 코틀린 기능임
 * */
